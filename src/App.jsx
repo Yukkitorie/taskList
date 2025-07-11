@@ -19,7 +19,7 @@ function App() {
         <h1>Task List With Priority</h1>
         <button
           onClick={() => toggleSection("taskList")}
-          className="close-button"
+          className={`close-button ${openSection.taskList ? "open" : ""}`}
         >
           +
         </button>
@@ -28,18 +28,29 @@ function App() {
 
       <div className="task-container">
         <h2>Tasks</h2>
-        <button className="close-button">+</button>
+        <button
+          onClick={() => toggleSection("tasks")}
+          className={`close-button ${openSection.tasks ? "open" : ""}`}
+        >
+          +
+        </button>
         <div className="sort-controls">
           <button className="sort-button">By Date</button>
           <button className="sort-button">By Priority</button>
         </div>
-        <TaskList />
+
+        {openSection.tasks && <TaskList />}
       </div>
 
       <div className="completed-task-container">
         <h2>Completed Tasks</h2>
-        <button className="close-button">+</button>
-        <CompletedTasksLits />
+        <button
+          onClick={() => toggleSection("completedTasks")}
+          className={`close-button ${openSection.completedTasks ? "open" : ""}`}
+        >
+          +
+        </button>
+        {openSection.completedTasks && <CompletedTasksLits />}
       </div>
       <Footer />
     </div>
