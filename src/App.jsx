@@ -2,9 +2,9 @@ import { useState } from "react";
 
 function App() {
   const [openSection, setOpenSection] = useState({
-    taskList: false,
-    tasks: true,
-    completedTasks: true,
+    taskList: true,
+    tasks: false,
+    completedTasks: false,
   });
   function toggleSection(section) {
     setOpenSection((prev) => ({
