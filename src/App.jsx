@@ -1,4 +1,3 @@
-import { use } from "react";
 import { useState } from "react";
 
 function App() {
@@ -16,8 +15,13 @@ function App() {
   }
 
   function addTask(task) {
+    console.log("Adding task:", task);
+    console.log(tasks);
     setTasks([...tasks, { ...task, completed: false, id: Date.now() }]);
   }
+
+  const activeTasks = tasks.filter((task) => !task.completed);
+  const completedTasks = tasks.filter((task) => task.completed);
 
   return (
     <div className="app">
@@ -45,7 +49,7 @@ function App() {
           <button className="sort-button">By Priority</button>
         </div>
 
-        {openSection.tasks && <TaskList />}
+        {openSection.tasks && <TaskList activeTasks={activeTasks} />}
       </div>
 
       <div className="completed-task-container">
@@ -102,10 +106,13 @@ function TaskForm({ addTask }) {
   );
 }
 
-function TaskList() {
+function TaskList({ activeTasks }) {
+  console.log(activeTasks);
   return (
     <ul className="task-list">
-      <TaskItem />
+      {activeTasks.map((task) => (
+        <TaskItem task={task} key={task.id} />
+      ))}
     </ul>
   );
 }
@@ -118,14 +125,17 @@ function CompletedTasksLits() {
   );
 }
 
-function TaskItem() {
+function TaskItem({ task }) {
+  const { title, priority, deadline, id } = task;
   return (
-    <li className="task-item">
+    <li className={`task-item ${priority.toLowerCase()}`}>
       <div className="task-info">
         <div>
-          Title <strong>Medium</strong>
+          {title} <strong>{priority}</strong>
         </div>
-        <div className="task-deadline">Due: {new Date().toLocaleString()}</div>
+        <div className="task-deadline">
+          Due: {new Date(deadline).toLocaleString()}
+        </div>
       </div>
       <div className="task-buttons"></div>
       <div className="task-buttons">
